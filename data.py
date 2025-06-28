@@ -17,12 +17,18 @@ class Subgoal:  # 中目標
     due_date: datetime.date
     tasks: list[Task]
 
+    def add_task(self, task: Task):
+        self.tasks.append(task)
+
 
 @dataclass
 class Goal:  # 大目標
     title: str
     due_date: datetime.date
     subgoals: list[Subgoal]
+
+    def add_subgoal(self, subgoal: Subgoal):
+        self.subgoals.append(subgoal)
 
 
 def save_data_to_json(file_path: str, goals: list[Goal]):
