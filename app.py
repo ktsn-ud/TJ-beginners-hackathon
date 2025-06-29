@@ -2,6 +2,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 from data import Task, Subgoal, Goal, load_data_from_json
 from utils.state_utils import init_session_state
+import os
 
 st.set_page_config(
     page_title="タスク管理アプリ",
@@ -16,7 +17,11 @@ init_session_state()
 # -------------------
 # データ読み込み
 # -------------------
-goals = load_data_from_json("test_data.json")
+json_path = "test_data.json"
+goals = []
+if os.path.exists(json_path):
+    goals = load_data_from_json(json_path)
+
 st.title("タスク管理アプリ")
 
 # ページリンクを表示
@@ -26,14 +31,15 @@ html = """
 <div style="padding: 12px; border: 1px solid #ccc; border-radius: 12px;">
 """
 
-for goal in goals:
-    goal_block = f"""
-    <div style="border: 2px solid #007ACC; padding: 12px; border-radius: 10px; margin-bottom: 20px; background-color: #f0f8ff;">
-        <h2>{goal.title}</h2>
-        <p><strong>期限:</strong> {goal.due_date.strftime('%Y-%m-%d')}</p>
-    </div>
-    """
-    html += goal_block
+if goals:
+    for goal in goals:
+        goal_block = f"""
+        <div style="border: 2px solid #007ACC; padding: 12px; border-radius: 10px; margin-bottom: 20px; background-color: #f0f8ff;">
+            <h2>{goal.title}</h2>
+            <p><strong>期限:</strong> {goal.due_date.strftime('%Y-%m-%d')}</p>
+        </div>
+        """
+        html += goal_block
 
 html += "</div>"
 
