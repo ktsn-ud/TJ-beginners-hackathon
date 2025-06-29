@@ -12,7 +12,6 @@ init_session_state()
 
 st.title("タスクを追加")
 
-st.write(st.session_state)
 
 # テスト用データ
 if "goals" not in st.session_state:
@@ -53,5 +52,6 @@ for i, subgoal in enumerate(current_subgoals):
 
 if st.button("完了"):
     st.session_state.goals.append(st.session_state.current_goal)
+    save_data_to_json("data/goals.json", st.session_state.goals)
     del st.session_state.current_goal
     st.switch_page("app.py")
