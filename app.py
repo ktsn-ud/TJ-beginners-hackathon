@@ -9,7 +9,7 @@ st.set_page_config(
 )
 
 def go_to_add():
-    st.session_state.page = "add"
+    st.switch_page("pages/1_add_goal.py")
 
 # セッション変数の初期化
 init_session_state()
@@ -17,7 +17,7 @@ init_session_state()
 # -------------------
 # データ読み込み
 # -------------------
-json_path = "test_data.json"
+json_path = "data/goals.json"
 goals = load_data_from_json(json_path) if os.path.exists(json_path) else []
 
 st.title("タスク管理アプリ")
