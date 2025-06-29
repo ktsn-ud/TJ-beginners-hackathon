@@ -13,13 +13,15 @@ from utils.state_utils import init_session_state
 init_session_state()
 
 
-# # 大目標が設定されているか確認 (Goalが渡されているか)
+# 大目標が設定されているか確認 (Goalが渡されているか)
 if "current_goal" not in st.session_state:
     st.error("先に大目標を作成してください")
     st.stop()
 
 # 大目標のタイトルを表示
 st.title(f"『{st.session_state.current_goal.title}』の中期目標の追加")
+
+# TODO: ここで大目標の期限を表示する
 
 # subgoalの数の初期化
 if "num_subgoals" not in st.session_state:
@@ -31,11 +33,11 @@ for i in range(st.session_state.num_subgoals):
     title = st.text_input(f"中期目標{i + 1}のタイトル", key=f"subgoal_title_{i}")
     due_date = st.date_input(f"中期目標{i + 1}の期限", value=datetime.date.today(), key=f"subgoal_due_{i}")
     subgoal_inputs.append((title, due_date))
-    
+
 # 追加ボタンクリック → サブゴール、期限の入力欄を増やす
 if st.button("追加"):
     st.session_state.num_subgoals += 1
-    st.experimental_rerun()
+    st.rerun()
 
 # 次へをクリック → サブゴールを追加 → Taskの入力ページへ
 if st.button("次へ"):
@@ -43,7 +45,7 @@ if st.button("次へ"):
     for i in range(st.session_state.num_subgoals):
         title = st.session_state.get(f"subgoal_title_{i}", "").strip()
         due_date = st.session_state.get(f"subgoal_due_{i}", datetime.date.today())
-        if title:  
+        if title:
             subgoal = Subgoal(title=title, due_date=due_date, tasks=[])
             st.session_state.current_goal.add_subgoal(subgoal)
             added_count += 1
