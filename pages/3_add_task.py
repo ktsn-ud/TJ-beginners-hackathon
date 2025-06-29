@@ -10,17 +10,9 @@ from data import load_data_from_json, save_data_to_json
 
 init_session_state()
 
-st.write(st.session_state)
-
 st.title("タスクを追加")
 
-# テスト用データ
-# if "goals" not in st.session_state:
-#     st.session_state.goals = load_data_from_json("data/goals.json")
-# if "current_goal" not in st.session_state:
-#     st.session_state.current_goal = st.session_state.goals[0] # ほんとうは渡されてくる
 current_subgoals = st.session_state.current_goal.subgoals
-
 n_subgoals = len(current_subgoals)
 
 if "task_counts" not in st.session_state:
@@ -52,18 +44,6 @@ for subgoal_i, subgoal in enumerate(current_subgoals):
             st.session_state.task_counts[subgoal_i] += 1
             st.rerun()
 
-    # with st.form(key=f"task_form_{i}"):
-    #     task_title = st.text_input("タスク名", key=f"task_title_{i}", value="", placeholder="タスク名を入力してください")
-    #     task_due_date = st.date_input("締切日", datetime.date.today(), key=f"task_due_date_{i}")
-
-    #     if st.form_submit_button("タスクを追加"):
-    #         new_task = Task(title=task_title, due_date=task_due_date, status="in_progress")
-    #         subgoal.tasks.append(new_task)
-    #         st.rerun()
-
-
-            # new_task = Task(title=task_title, due_date=task_due_date, status="in_progress")
-            # subgoal.tasks.append(new_task)
 # 全部一気に確定
 task_found = False
 if st.button("完了"):
