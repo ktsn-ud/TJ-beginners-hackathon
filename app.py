@@ -17,7 +17,7 @@ init_session_state()
 # -------------------
 # データ読み込み
 # -------------------
-json_path = "test_data.json"
+json_path = "data/goals.json"
 goals = []
 if os.path.exists(json_path):
     goals = load_data_from_json(json_path)
