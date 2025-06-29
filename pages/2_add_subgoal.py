@@ -18,8 +18,9 @@ if "current_goal" not in st.session_state:
 # 大目標のタイトルを表示
 st.title("中期目標の作成")
 
-st.text(f"{st.session_state.current_goal.title}")
-st.text(f"期限: {st.session_state.current_goal.due_date}")
+# with st.container(border=True):
+st.markdown(f"**{st.session_state.current_goal.title}**")
+st.markdown(f"期限: {st.session_state.current_goal.due_date}")
 
 
 # subgoalの数の初期化

@@ -6,7 +6,8 @@ import os
 
 st.set_page_config(
     page_title="タスク管理アプリ",
-    layout="centered"
+    layout="centered",
+    initial_sidebar_state="collapsed"
 )
 
 def go_to_add():
