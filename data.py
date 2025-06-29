@@ -99,6 +99,44 @@ if __name__ == "__main__":
                     ]
                 ),
             ]
+        ),
+        Goal(
+            title="プログラミングスキルを向上",
+            due_date=datetime.date(2024, 12, 31),
+            subgoals=[
+                Subgoal(
+                    title="Pythonの復習",
+                    due_date=datetime.date(2024, 9, 1),
+                    tasks=[
+                        Task(
+                            title="標準ライブラリを再確認",
+                            due_date=datetime.date(2024, 8, 15),
+                            status="in_progress"
+                        ),
+                        Task(
+                            title="データクラスを使った設計",
+                            due_date=datetime.date(2024, 8, 25),
+                            status="done"
+                        ),
+                    ]
+                ),
+                Subgoal(
+                    title="Webアプリを作る",
+                    due_date=datetime.date(2024, 11, 1),
+                    tasks=[
+                        Task(
+                            title="Streamlitの学習",
+                            due_date=datetime.date(2024, 10, 10),
+                            status="in_progress"
+                        ),
+                        Task(
+                            title="ToDoアプリを完成させる",
+                            due_date=datetime.date(2024, 10, 30),
+                            status="in_progress"
+                        ),
+                    ]
+                ),
+            ]
         )
     ]
 
