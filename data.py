@@ -44,7 +44,7 @@ def save_data_to_json(file_path: str, goals: list[Goal]):
 
 
 def load_data_from_json(file_path: str) -> list[Goal]:
-    """JSONファイルからデータを読み込む"""
+    """JSONファイルからデータを読み込み、インスタンス化"""
 
     def parse_dates(obj):
         if "due_date" in obj:
@@ -53,7 +53,14 @@ def load_data_from_json(file_path: str) -> list[Goal]:
 
     with open(file_path, 'r', encoding='utf-8') as f:
         data = json.load(f, object_hook=parse_dates)
-        return [Goal(**goal) for goal in data]
+        goals = []
+        for g in data:
+            subgoals = []
+            for sg in g["subgoals"]:
+                tasks = [Task(**t) for t in sg["tasks"]]
+                subgoals.append(Subgoal(title=sg["title"], due_date=sg["due_date"], tasks=tasks))
+            goals.append(Goal(title=g["title"], due_date=g["due_date"], subgoals=subgoals))
+        return goals
 
 
 # 以下テスト
