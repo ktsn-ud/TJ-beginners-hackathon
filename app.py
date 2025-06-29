@@ -18,7 +18,10 @@ init_session_state()
 # データ読み込み
 # -------------------
 json_path = "data/goals.json"
-goals = load_data_from_json(json_path) if os.path.exists(json_path) else []
+
+if "goals" not in st.session_state:
+    st.session_state.goals = load_data_from_json(json_path) if os.path.exists(json_path) else []
+goals = st.session_state.goals
 
 st.title("タスク管理アプリ")
 
@@ -37,5 +40,5 @@ if goals:
 
             # ✅ ボタンで当たり判定 → セッションに保存 & ページ遷移
             if st.button("👉 詳細を見る", key=f"goal_btn_{gi}"):
-                st.session_state["selected_goal"] = gi
+                st.session_state.selected_goal = gi
                 st.switch_page("pages/details.py")
