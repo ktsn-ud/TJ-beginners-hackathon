@@ -1,3 +1,4 @@
+import datetime
 import streamlit as st
 from data import Task, Subgoal, Goal, load_data_from_json
 from utils.state_utils import init_session_state
@@ -26,7 +27,7 @@ goals = st.session_state.goals
 st.title("タスク管理アプリ")
 
 # ページリンク
-if st.button("📌 目標を追加"):
+if st.button("📌 計画を作成"):
         go_to_add()
 # -------------------
 # Goal 一覧表示
@@ -35,10 +36,14 @@ if goals:
     for gi, goal in enumerate(goals):
         with st.container():
             # ✅ Streamlit ウィジェットで正しく表示
+            left_days = (goal.due_date - datetime.date.today()).days
             st.subheader(f"◎ {goal.title}")
-            st.text(f"期限: {goal.due_date.strftime('%Y-%m-%d')}")
+            st.text(f"期限: {goal.due_date.strftime('%Y-%m-%d')} (あと {left_days} 日)")
 
             # ✅ ボタンで当たり判定 → セッションに保存 & ページ遷移
             if st.button("👉 詳細を見る", key=f"goal_btn_{gi}"):
                 st.session_state.selected_goal = gi
                 st.switch_page("pages/details.py")
+else:
+    st.write("計画はまだ作成されていません。")
+    st.write("「計画を作成」ボタンから始めましょう！")
