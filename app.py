@@ -19,6 +19,9 @@ init_session_state()
 goals = load_data_from_json("test_data.json")
 st.title("タスク管理アプリ")
 
+# ページリンクを表示
+st.markdown("### [📌 目標を追加](./1_add_goal)")
+
 html = """
 <div style="overflow-y: auto; padding: 12px; border: 1px solid #ccc; border-radius: 12px;">
 """
@@ -47,4 +50,4 @@ for goal in goals:
 
 html += "</div>"
 
-components.html(html, height=650, scrolling=True)
+components.html(html, height=1000, scrolling=True)
