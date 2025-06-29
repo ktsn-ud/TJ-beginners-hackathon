@@ -4,35 +4,33 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import streamlit as st
 import datetime
-import json
 
 from data import Goal, Subgoal, Task
 from utils.state_utils import init_session_state
 
-
 init_session_state()
 
-
-# 大目標が設定されているか確認 (Goalが渡されているか)
+# Goalが渡されているか確認
 if "current_goal" not in st.session_state:
-    st.error("先に大目標を作成してください")
+    st.error("先に計画を作成してください")
     st.stop()
 
 # 大目標のタイトルを表示
-st.title(f"『{st.session_state.current_goal.title}』の中期目標の追加")
+st.title("中期目標の作成")
 
-# TODO: ここで大目標の期限を表示する
+st.text(f"{st.session_state.current_goal.title}")
+st.text(f"期限: {st.session_state.current_goal.due_date}")
+
 
 # subgoalの数の初期化
 if "num_subgoals" not in st.session_state:
     st.session_state.num_subgoals = 1
 
 # サブゴールのタイトル、期限の入力欄
-subgoal_inputs = []
 for i in range(st.session_state.num_subgoals):
-    title = st.text_input(f"中期目標{i + 1}のタイトル", key=f"subgoal_title_{i}")
-    due_date = st.date_input(f"中期目標{i + 1}の期限", value=datetime.date.today(), key=f"subgoal_due_{i}")
-    subgoal_inputs.append((title, due_date))
+    with st.container(border=True):
+        title = st.text_input(f"中期目標{i + 1}のタイトル", key=f"subgoal_title_{i}", placeholder="中期目標のタイトルを入力してください")
+        due_date = st.date_input(f"中期目標{i + 1}の期限", value=datetime.date.today(), key=f"subgoal_due_{i}")
 
 # 追加ボタンクリック → サブゴール、期限の入力欄を増やす
 if st.button("追加"):
@@ -40,7 +38,7 @@ if st.button("追加"):
     st.rerun()
 
 # 次へをクリック → サブゴールを追加 → Taskの入力ページへ
-if st.button("次へ"):
+if st.button("次へ（タスクの作成）"):
     added_count = 0
     for i in range(st.session_state.num_subgoals):
         title = st.session_state.get(f"subgoal_title_{i}", "").strip()
