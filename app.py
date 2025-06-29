@@ -1,5 +1,4 @@
 import streamlit as st
-import streamlit.components.v1 as components
 from data import Task, Subgoal, Goal, load_data_from_json
 from utils.state_utils import init_session_state
 import os
@@ -9,38 +8,34 @@ st.set_page_config(
     layout="centered"
 )
 
+def go_to_add():
+    st.session_state.page = "add"
+
 # セッション変数の初期化
 init_session_state()
-
-# ここからトップページ #########
 
 # -------------------
 # データ読み込み
 # -------------------
-json_path = "data/goals.json"
-goals = []
-if os.path.exists(json_path):
-    goals = load_data_from_json(json_path)
+json_path = "test_data.json"
+goals = load_data_from_json(json_path) if os.path.exists(json_path) else []
 
 st.title("タスク管理アプリ")
 
-# ページリンクを表示
-st.markdown("### [📌 目標を追加](./1_add_goal)")
-
-html = """
-<div style="padding: 12px; border: 1px solid #ccc; border-radius: 12px;">
-"""
-
+# ページリンク
+if st.button("📌 目標を追加"):
+        go_to_add()
+# -------------------
+# Goal 一覧表示
+# -------------------
 if goals:
-    for goal in goals:
-        goal_block = f"""
-        <div style="border: 2px solid #007ACC; padding: 12px; border-radius: 10px; margin-bottom: 20px; background-color: #f0f8ff;">
-            <h2>{goal.title}</h2>
-            <p><strong>期限:</strong> {goal.due_date.strftime('%Y-%m-%d')}</p>
-        </div>
-        """
-        html += goal_block
+    for gi, goal in enumerate(goals):
+        with st.container():
+            # ✅ Streamlit ウィジェットで正しく表示
+            st.subheader(f"◎ {goal.title}")
+            st.text(f"期限: {goal.due_date.strftime('%Y-%m-%d')}")
 
-html += "</div>"
-
-components.html(html, height=goals.__len__() * 200, scrolling=False)
+            # ✅ ボタンで当たり判定 → セッションに保存 & ページ遷移
+            if st.button("👉 詳細を見る", key=f"goal_btn_{gi}"):
+                st.session_state["selected_goal"] = gi
+                st.switch_page("pages/details.py")
